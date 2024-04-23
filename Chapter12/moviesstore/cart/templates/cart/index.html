@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+{% load cart_filters %}
+<div class="p-3">
+  <div class="container">
+    <div class="row mt-3">
+      <div class="col mx-auto mb-3">
+        <h2>Shopping Cart</h2>
+        <hr />
+      </div>
+    </div>
+    <div class="row m-1">
+      <table class="table table-bordered table-striped text-center">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Price</th>
+            <th scope="col">Quantity</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for movie in template_data.movies_in_cart %}
+          <tr>
+            <td>{{ movie.id }}</td>
+            <td>{{ movie.name }}</td>
+            <td>${{ movie.price }}</td>
+            <td>{{ request.session.cart|get_quantity:movie.id }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div class="row">
+      <div class="text-end">
+        <a class="btn btn-outline-secondary mb-2"><b>Total to pay:</b> ${{ template_data.cart_total }}</a>
+        {% if template_data.movies_in_cart|length > 0 %}
+        <a href="{% url 'cart.clear' %}">
+          <button class="btn btn-danger mb-2">
+            Remove all movies from Cart
+          </button>
+        </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
