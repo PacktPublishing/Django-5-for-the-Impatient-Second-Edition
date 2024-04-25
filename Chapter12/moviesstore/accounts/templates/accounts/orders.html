@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="p-3">
+  <div class="container">
+    <div class="row mt-3">
+      <div class="col mx-auto mb-3">
+        <h2>My Orders</h2>
+        <hr />
+        {% for order in template_data.orders %}
+        <div class="card mb-4">
+          <div class="card-header">
+            Order #{{ order.id }}
+          </div>
+          <div class="card-body">
+            <b>Date:</b> {{ order.date }}<br />
+            <b>Total:</b> ${{ order.total }}<br />
+            <table class="table table-bordered table-striped text-center mt-3">
+              <thead>
+                <tr>
+                  <th scope="col">Item ID</th>
+                  <th scope="col">Movie</th>
+                  <th scope="col">Price</th>
+                  <th scope="col">Quantity</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for item in order.item_set.all %}
+                <tr>
+                  <td>{{ item.movie.id }}</td>
+                  <td>
+                    <a class="link-dark" href="{% url 'movies.show' id=item.movie.id %}">                    
+                      {{ item.movie.name }}
+                    </a>
+                  </td>
+                  <td>${{ item.movie.price }}</td>
+                  <td>{{ item.quantity }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
